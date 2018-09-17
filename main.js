@@ -1,5 +1,9 @@
 var yyy = document.getElementById('xxx');
 var context = yyy.getContext('2d');
+var lineWidth = 5
+
+context.rect(0, 0, yyy.width, yyy.height)
+context.fillStyle = 'white'
 
 autoSetCanvasSize(yyy)
 
@@ -7,14 +11,76 @@ listenToUser(yyy)
 
 
 var eraserEnabled = false
-eraser.onclick = function() {
-  eraserEnabled =true
-  actions.className = 'actions x'
-
-}
-brush.onclick = function(){
+brush.onclick = function() {
   eraserEnabled = false
-  actions.className = 'actions'
+  brush.classList.add('active')
+  eraser.classList.remove('active')
+}
+eraser.onclick = function(){
+  eraserEnabled = true
+  eraser.classList.add('active')
+  brush.classList.remove('active')
+}
+
+save.onclick = function(){
+  var url = yyy.toDataURL('image/png')
+  var a = document.createElement('a')
+  document.body.appendChild(a)
+  a.href = url
+  a.download = '我的画'
+  a.click()
+}
+
+
+clear.onclick = function(){
+  context.clearRect(0, 0, yyy.width, yyy.height) 
+}
+black.onclick = function(){
+  black.classList.add('active')
+  red.classList.remove('active')
+  green.classList.remove('active')
+  blue.classList.remove('active')
+  context.strokeStyle = 'black'
+}
+red.onclick = function(){
+  red.classList.add('active')
+  black.classList.remove('active')
+  green.classList.remove('active')
+  blue.classList.remove('active')
+  context.strokeStyle = 'red'
+}
+green.onclick = function(){
+  green.classList.add('active')
+  black.classList.remove('active')
+  red.classList.remove('active')
+  blue.classList.remove('active')
+  context.strokeStyle = 'green'
+}
+blue.onclick = function(ddd){
+  blue.classList.add('active')
+  black.classList.remove('active')
+  red.classList.remove('active')
+  green.classList.remove('active')
+  context.strokeStyle = 'blue'
+}
+
+thin.onclick = function(){
+  thin.classList.add('active')
+  middle.classList.remove('active')
+  thick.classList.remove('active')
+  lineWidth = 5
+}
+middle.onclick = function(){
+  middle.classList.add('active')
+  thin.classList.remove('active')
+  thick.classList.remove('active')
+  lineWidth = 10
+}
+thick.onclick = function(){
+  thick.classList.add('active')
+  thin.classList.remove('active')
+  middle.classList.remove('active')
+  lineWidth = 15
 }
 
 
@@ -36,6 +102,10 @@ function autoSetCanvasSize(canvas) {
   }
 }
 
+function drawRect(x,y,width,height){
+  context.fillRect(x,y,width,height)
+  context.fillStyle = 'white'
+}
 function drawCircle(x, y, radius) {
   context.beginPath()
   context.fillStyle = 'black'
@@ -45,9 +115,8 @@ function drawCircle(x, y, radius) {
 
 function drawLine(x1, y1, x2, y2) {
   context.beginPath();
-  context.strokeStyle = 'black'
   context.moveTo(x1, y1) // 起点
-  context.lineWidth = 5
+  context.lineWidth = lineWidth
   context.lineTo(x2, y2) // 终点
   context.stroke()
   context.closePath()
