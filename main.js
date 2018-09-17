@@ -1,72 +1,134 @@
-var yyy = document.getElementById('xxx')
-autoSetCanvasSize(yyy)
-var context = yyy.getContext('2d')
+var yyy = document.getElementById('xxx');
+var context = yyy.getContext('2d');
 
-listenToMouse(yyy)
+autoSetCanvasSize(yyy)
+
+listenToUser(yyy)
+
 
 var eraserEnabled = false
-eraser.onclick = function(){
-  eraserEnabled = true
+eraser.onclick = function() {
+  eraserEnabled =true
   actions.className = 'actions x'
+
 }
 brush.onclick = function(){
   eraserEnabled = false
   actions.className = 'actions'
 }
 
-/*工具函数*/
-function autoSetCanvasSize(canvas){
+
+/******/
+
+function autoSetCanvasSize(canvas) {
   setCanvasSize()
-  window.onresize = function(){
+
+  window.onresize = function() {
     setCanvasSize()
   }
-  function setCanvasSize(){
+
+  function setCanvasSize() {
     var pageWidth = document.documentElement.clientWidth
     var pageHeight = document.documentElement.clientHeight
+
     canvas.width = pageWidth
     canvas.height = pageHeight
   }
 }
 
-function drawLine(x1,y1,x2,y2){
+function drawCircle(x, y, radius) {
   context.beginPath()
-  context.lineWidth = 4
-  context.moveTo(x1,y1)
-  context.lineTo(x2,y2)
+  context.fillStyle = 'black'
+  context.arc(x, y, radius, 0, Math.PI * 2);
+  context.fill()
+}
+
+function drawLine(x1, y1, x2, y2) {
+  context.beginPath();
+  context.strokeStyle = 'black'
+  context.moveTo(x1, y1) // 起点
+  context.lineWidth = 5
+  context.lineTo(x2, y2) // 终点
   context.stroke()
   context.closePath()
 }
 
-function listenToMouse(canvas){
-  var lastPoint = {x: undefined, y: undefined}
-  var using = false
+function listenToUser(canvas) {
 
-  canvas.onmousedown = function(aaa){
-    var x = aaa.clientX
-    var y = aaa.clientY
-    using = true
-    if(eraserEnabled){
-      context.clearRect(x-5,y-5,10,10)
-    }else{
-      lastPoint = {x: x, y: y}
-    } 
-  }
+  if(document.body.ontouchstart !== undefined){
+    canvas.ontouchstart = function(aaa){
+      var x = aaa.touches[0].clientX
+      var y = aaa.touches[0].clientY
+      using = true
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        lastPoint = {
+          "x": x,
+          "y": y
+        }
+      }
+    }
+    canvas.ontouchmove = function(aaa){
+      var x = aaa.touches[0].clientX
+      var y = aaa.touches[0].clientY
 
-  canvas.onmousemove = function(bbb){
-    var x = bbb.clientX
-    var y = bbb.clientY
-    if(!using){ return }
-      if(eraserEnabled){
-        context.clearRect(x-5,y-5,10,10)
+      if (!using) {return}
 
-      }else{
-        var newPoint = {x: x, y:y}
-        drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        var newPoint = {
+          "x": x,
+          "y": y
+        }
+        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
       }
-  }
+    }
+    canvas.ontouchend = function(aaa){
+      using = false
+    }
+  }else{
+    var using = false
+    var lastPoint = {
+      x: undefined,
+      y: undefined
+    }
+    canvas.onmousedown = function(aaa) {
+      var x = aaa.clientX
+      var y = aaa.clientY
+      using = true
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        lastPoint = {
+          "x": x,
+          "y": y
+        }
+      }
+    }
+    canvas.onmousemove = function(aaa) {
+      var x = aaa.clientX
+      var y = aaa.clientY
 
-  canvas.onmouseup = function(){
-    using = false
+      if (!using) {return}
+
+      if (eraserEnabled) {
+        context.clearRect(x - 5, y - 5, 10, 10)
+      } else {
+        var newPoint = {
+          "x": x,
+          "y": y
+        }
+        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+        lastPoint = newPoint
+      }
+
+    }
+    canvas.onmouseup = function(aaa) {
+      using = false
+    }
   }
+  
 }

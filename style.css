@@ -4,6 +4,7 @@ body{
 
 #xxx{
   background: grey;
+  display: block;
 }
 
 .actions{
