@@ -26,6 +26,7 @@ ol,li {
 #xxx{
   background: white;
   display: block;
+  vertical-align:top; 
   position: fixed;
   top: 0;
   left: 0;
@@ -33,19 +34,21 @@ ol,li {
 
 
 .actions{
-  float: right;
-  margin-top: 24px;
-  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  margin-right: 28px;
 }
 
-.actions li{
-  float: left;
-}
+
 .actions svg {
   width: 1.5em;
   height: 1.5em;
   transition: all 0.24s;
-  margin: 0 10px;
+  margin-left: 20px;
+}
+
+.actions svg:nth-child(1){
+  margin-left: 0;
 }
 
 .actions svg.active {
@@ -54,7 +57,7 @@ ol,li {
 }
 .colors {
   position: fixed;
-  bottom: 92px;
+  bottom: 82px;
   left: 26px;
  }
 
@@ -95,35 +98,31 @@ ol,li {
 }
 
 .width {
-  float: left;
-  margin-top: 24px;
+  display: flex;
+  align-items: center;
   margin-left: 28px;
  }
 
  .width > li {
-   float: left;
    border: 1px solid black;
    background: #fbfbfb;
    border-radius: 50%;
+   margin-right: 16px;
  }
 
 .width > li.thin{
   width: 12px;
   height: 12px;
-  
-  margin: 6px 24px 0 0;
 }
 
 .width > li.middle{
   width: 18px;
   height: 18px;
-  margin: 3px 24px 0 0;
 }
 
 .width > li.thick{
   width: 24px;
-  height: 24px;
-  
+  height: 24px; 
 }
 
 .width > li.active{
@@ -131,14 +130,17 @@ ol,li {
 }
 
 .nav {
-  position: fixed;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   background: #fbfbfb;
   width: 100%;
-  height: 72px;
   position: fixed;
   bottom: 0;
   left: 0;
   box-shadow: 0 0 4px rgba(0,0,0,0.16);
+  padding: 20px 0;
 }
 
 .clear{
