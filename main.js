@@ -47,26 +47,19 @@ $('.colors').on('click','li',(e)=>{
   }
 })
 
+$('.width').on('click','li',(e)=>{
+  let $btn = $(e.currentTarget)
+  $btn.addClass('active')
+    .siblings('.active').removeClass('active')
+  if($btn.attr('id')==='thin'){
+    lineWidth = 5
+  }else if($btn.attr('id')==='middle'){
+    lineWidth = 10
+  }else if($btn.attr('id')==='thick'){
+    lineWidth = 15
+  }
+})
 
-
-thin.onclick = function(){
-  thin.classList.add('active')
-  middle.classList.remove('active')
-  thick.classList.remove('active')
-  lineWidth = 5
-}
-middle.onclick = function(){
-  middle.classList.add('active')
-  thin.classList.remove('active')
-  thick.classList.remove('active')
-  lineWidth = 10
-}
-thick.onclick = function(){
-  thick.classList.add('active')
-  thin.classList.remove('active')
-  middle.classList.remove('active')
-  lineWidth = 15
-}
 
 
 /******/
@@ -76,7 +69,9 @@ function autoSetCanvasSize(canvas) {
   setCanvasSize()
 
   window.onresize = function() {
+    var imgData = context.getImageData(0,0,canvas.width,canvas.height);
     setCanvasSize()
+    context.putImageData(imgData,0,0)
   }
 
   function setCanvasSize() {
@@ -88,17 +83,6 @@ function autoSetCanvasSize(canvas) {
   }
 }
 
-// function drawRect(x,y,width,height){
-//   context.fillRect(x,y,width,height)
-//   context.fillStyle = 'white'
-// }
-// function drawCircle(x, y, radius) {
-//   context.beginPath()
-//   context.fillStyle = 'black'
-//   context.arc(x, y, radius, 0, Math.PI * 2);
-//   context.fill()
-// }
-
 function drawLine(x1, y1, x2, y2) {
   context.beginPath();
   context.moveTo(x1, y1) // 起点
@@ -109,9 +93,9 @@ function drawLine(x1, y1, x2, y2) {
 }
 
 function listenToUser(canvas) {
-
   if(document.body.ontouchstart !== undefined){
-    canvas.ontouchstart = function(aaa){
+    console.log(1)
+    $('canvas').on('touchstart',(aaa)=>{
       var x = aaa.touches[0].clientX
       var y = aaa.touches[0].clientY
       using = true
@@ -123,8 +107,8 @@ function listenToUser(canvas) {
           "y": y
         }
       }
-    }
-    canvas.ontouchmove = function(aaa){
+    })
+    $('canvas').on('touchmove',(aaa)=>{
       var x = aaa.touches[0].clientX
       var y = aaa.touches[0].clientY
 
@@ -140,17 +124,19 @@ function listenToUser(canvas) {
         drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
       }
-    }
-    canvas.ontouchend = function(aaa){
+    })
+    $('canvas').on('touchend', (aaa)=>{
       using = false
-    }
+    })
   }else{
+    
     var using = false
     var lastPoint = {
       x: undefined,
       y: undefined
     }
-    canvas.onmousedown = function(aaa) {
+    $('canvas').on('mousedown',(aaa)=>{
+      console.log(3)
       var x = aaa.clientX
       var y = aaa.clientY
       using = true
@@ -162,8 +148,8 @@ function listenToUser(canvas) {
           "y": y
         }
       }
-    }
-    canvas.onmousemove = function(aaa) {
+    })
+    $('canvas').on('mousemove',(aaa)=>{
       var x = aaa.clientX
       var y = aaa.clientY
 
@@ -179,11 +165,9 @@ function listenToUser(canvas) {
         drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
       }
-
-    }
-    canvas.onmouseup = function(aaa) {
+    })
+    $('canvas').on('mouseup',(aaa)=>{
       using = false
-    }
+    })
   }
-  
 }

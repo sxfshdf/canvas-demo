@@ -30,7 +30,7 @@ ol,li {
 #xxx{
   background: white;
   display: block;
-  vertical-align:top; 
+  /* vertical-align: top;  */
   position: fixed;
   top: 0;
   left: 0;
