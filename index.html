@@ -6,26 +6,32 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
   <canvas id="xxx" width=300 height=300></canvas>
-
   <ol class="colors clearfix">
-    <li id="black" class="black active"></li>
-    <li id="red" class="red "></li>
-    <li id="blue" class="blue"></li>
-    <li id="green" class="green"></li>
+    <li id="black">
+      <div class="black active"></div>
+    </li>
+    <li id="red"">
+      <div class="red"></div>
+    </li>
+    <li id="blue">
+      <div class="blue"></div>
+    </li>
+    <li id="green">
+      <div class="green"></div>
+    </li>
   </ol>
  
   
   <div class="nav">
     <div id="actions" class="actions">
-      <svg id="brush" class="active icon">
-        <use xlink:href="#icon-Brush"></use>
-      </svg>
-      <svg id="eraser" class="icon">
-        <use xlink:href="#icon-eraser1"></use>
-      </svg>
+      <div class="eraserWrapper">
+        <div class="eraser"></div>
+      </div>
+      
     </div>
     <ol class="width">
       <li id="thin" class="thin active"></li>
@@ -33,21 +39,17 @@
       <li id="thick" class="thick"></li>
     </ol>
   </div>
-
+  
   <div id="clear" class="clear">
-    <svg class="icon">
-      <use xlink:href="#icon-delete"></use>
-    </svg>
+    <span class="fas fa-trash-alt"></span>
   </div>
   <div id="save" class="save">
-    <svg class="icon">
-      <use xlink:href="#icon-Save"></use>
-    </svg>
+    <span class="fas fa-download"></span>
   </div>
   
-  
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <script src="./main.js"></script>
-  <script src="//at.alicdn.com/t/font_840740_xt0zdyybkq.js"></script>
+  
   
 </body>
 </html>

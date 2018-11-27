@@ -2,67 +2,52 @@ var yyy = document.getElementById('xxx');
 var context = yyy.getContext('2d');
 var lineWidth = 5
 
-context.rect(0, 0, yyy.width, yyy.height)
-context.fillStyle = 'white'
 
 autoSetCanvasSize(yyy)
 
 listenToUser(yyy)
 
+context.fillStyle = '#fff'
+context.fillRect(0, 0, yyy.width, yyy.height)
 
 var eraserEnabled = false
-brush.onclick = function() {
-  eraserEnabled = false
-  brush.classList.add('active')
-  eraser.classList.remove('active')
-}
-eraser.onclick = function(){
-  eraserEnabled = true
-  eraser.classList.add('active')
-  brush.classList.remove('active')
-}
 
-save.onclick = function(){
-  var url = yyy.toDataURL('image/png')
+$('.eraser').on('click',()=>{
+  eraserEnabled = true
+  $('.eraser').addClass('active')
+  if($('.colors').find('.active')){
+    $('.colors').find('.active').removeClass('active')
+  }
+})
+
+
+$('.save').on('click',()=>{
+  var url = yyy.toDataURL('image/jpeg')
   var a = document.createElement('a')
   document.body.appendChild(a)
   a.href = url
   a.download = '我的画'
   a.click()
-}
+})
 
 
-clear.onclick = function(){
+$('.clear').on('click',()=>{
   context.clearRect(0, 0, yyy.width, yyy.height) 
-}
-black.onclick = function(){
-  black.classList.add('active')
-  red.classList.remove('active')
-  green.classList.remove('active')
-  blue.classList.remove('active')
-  context.strokeStyle = 'black'
-}
-red.onclick = function(){
-  red.classList.add('active')
-  black.classList.remove('active')
-  green.classList.remove('active')
-  blue.classList.remove('active')
-  context.strokeStyle = 'red'
-}
-green.onclick = function(){
-  green.classList.add('active')
-  black.classList.remove('active')
-  red.classList.remove('active')
-  blue.classList.remove('active')
-  context.strokeStyle = 'green'
-}
-blue.onclick = function(ddd){
-  blue.classList.add('active')
-  black.classList.remove('active')
-  red.classList.remove('active')
-  green.classList.remove('active')
-  context.strokeStyle = 'blue'
-}
+})
+
+
+$('.colors').on('click','li',(e)=>{
+  eraserEnabled = false
+  $(e.currentTarget).find('div').addClass('active')
+    .parent().siblings().find('.active').removeClass('active')
+  let color = $(e.currentTarget).attr('id')
+  context.strokeStyle = `${color}`
+  if($('.eraser').hasClass('active')){
+    $('.eraser').removeClass('active')
+  }
+})
+
+
 
 thin.onclick = function(){
   thin.classList.add('active')
@@ -86,6 +71,7 @@ thick.onclick = function(){
 
 /******/
 
+
 function autoSetCanvasSize(canvas) {
   setCanvasSize()
 
@@ -102,16 +88,16 @@ function autoSetCanvasSize(canvas) {
   }
 }
 
-function drawRect(x,y,width,height){
-  context.fillRect(x,y,width,height)
-  context.fillStyle = 'white'
-}
-function drawCircle(x, y, radius) {
-  context.beginPath()
-  context.fillStyle = 'black'
-  context.arc(x, y, radius, 0, Math.PI * 2);
-  context.fill()
-}
+// function drawRect(x,y,width,height){
+//   context.fillRect(x,y,width,height)
+//   context.fillStyle = 'white'
+// }
+// function drawCircle(x, y, radius) {
+//   context.beginPath()
+//   context.fillStyle = 'black'
+//   context.arc(x, y, radius, 0, Math.PI * 2);
+//   context.fill()
+// }
 
 function drawLine(x1, y1, x2, y2) {
   context.beginPath();
